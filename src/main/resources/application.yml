@@ -4,7 +4,7 @@ spring:
       server:
         webflux:
           routes:
-            - id: productoService
+            - id: producto-service
               uri: lb://productoService
               predicates:
                 - Path=/api/productos/**
@@ -17,28 +17,28 @@ spring:
               filters:
                 - StripPrefix=0
 
-            - id: productoService-swagger
+            - id: producto-service-swagger
               uri: lb://productoService
               predicates:
                 - Path=/swagger/productos/v3/api-docs
               filters:
                 - RewritePath=/swagger/productos/v3/api-docs, /v3/api-docs
 
-            - id: productoService-swagger-ui
+            - id: producto-service-swagger-ui
               uri: lb://productoService
               predicates:
                 - Path=/swagger/productos/swagger-ui/**
               filters:
                 - RewritePath=/swagger/productos/swagger-ui/(?<segment>.*), /swagger-ui/${segment}
 
-            - id: inventarioService-swagger
+            - id: inventario-service-swagger
               uri: lb://inventarioService
               predicates:
                 - Path=/swagger/inventario/v3/api-docs
               filters:
                 - RewritePath=/swagger/inventario/v3/api-docs, /v3/api-docs
 
-            - id: inventarioService-swagger-ui
+            - id: inventario-service-swagger-ui
               uri: lb://inventarioService
               predicates:
                 - Path=/swagger/inventario/swagger-ui/**
