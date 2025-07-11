@@ -1,0 +1,47 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: productoService
+          uri: lb://productoService
+          predicates:
+            - Path=/api/productos/**
+          filters:
+            - StripPrefix=2
+
+        - id: inventarioService
+          uri: lb://inventarioService
+          predicates:
+            - Path=/api/inventario/**
+          filters:
+            - StripPrefix=2
+
+        # Rutas Swagger de productoService
+        - id: productoService-swagger
+          uri: lb://productoService
+          predicates:
+            - Path=/swagger/productos/v3/api-docs
+          filters:
+            - RewritePath=/swagger/productos/v3/api-docs, /v3/api-docs
+
+        - id: productoService-swagger-ui
+          uri: lb://productoService
+          predicates:
+            - Path=/swagger/productos/swagger-ui/**
+          filters:
+            - RewritePath=/swagger/productos/swagger-ui/(?<segment>.*), /swagger-ui/${segment}
+
+        # Rutas Swagger de inventarioService
+        - id: inventarioService-swagger
+          uri: lb://inventarioService
+          predicates:
+            - Path=/swagger/inventario/v3/api-docs
+          filters:
+            - RewritePath=/swagger/inventario/v3/api-docs, /v3/api-docs
+
+        - id: inventarioService-swagger-ui
+          uri: lb://inventarioService
+          predicates:
+            - Path=/swagger/inventario/swagger-ui/**
+          filters:
+            - RewritePath=/swagger/inventario/swagger-ui/(?<segment>.*), /swagger-ui/${segment}
